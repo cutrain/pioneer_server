@@ -43,7 +43,7 @@ def index():
 @login_required
 def logout():
     logout_user()
-    return jsonify({'state':1})
+    return jsonify({'state':0})
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -59,7 +59,7 @@ def login():
                     'id':user.id,
                     'name':name,
                     'role':0,
-                    'state':1,
+                    'state':0,
                     'token':users[name]['token']
                 })
         except KeyError:
@@ -68,7 +68,7 @@ def login():
             'id':0,
             'name':'',
             'role':0,
-            'state':0,
+            'state':1,
             'token':'',
         })
     return render_template('login.html')
@@ -91,7 +91,7 @@ def register():
         return redirect('/')
     return render_template('register.html')
 
-@app.route('/forum/getForumList', method='POST')
+@app.route('/forum/getForumList', methods=['POST'])
 def getForumList():
     try:
         global bbs
