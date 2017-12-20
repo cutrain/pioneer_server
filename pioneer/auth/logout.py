@@ -1,7 +1,6 @@
-from .. import app, db
+from .. import app
 
 
 @app.route('/logout', methods=['POST'])
 def logout():
-    # TODO: logout
-    return jsonify({'state':0})
+    return jsonify({'state':200})

@@ -1,5 +1,6 @@
-from . import db
-
+from . import app, db
+import time
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 class Users(db.Model):
     __tablename__ = 'Users'
@@ -7,14 +8,36 @@ class Users(db.Model):
     username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(30), nullable=False)
     role = db.Column(db.Integer, nullable=False)
+    mail = db.Column(db.String(50), nullable=False)
     token = db.Column(db.String(256))
-    mail = db.Column(db.String(50))
     iconlink = db.Column(db.String(256))
     posts = db.relationship('Posts', backref='user', lazy=True)
     replies = db.relationship('Replies', backref='user', lazy=True)
 
     def __repr__(self):
         return "<Users %r>" % self.username
+
+    def generate_token(self, expiration=600):
+        token = {'id':self.userId,
+                 'time':time.time(),
+                }
+        s = Serializer(app.config['SECRET_KEY'], expires_in=expiration)
+        return s.dumps(token)
+
+    @staticmethod
+    def verify(token):
+        try:
+            s = Serializer(app.config['SECRET_KEY'])
+            data = s.loads(token)
+            now_t = time.time()
+            if now_t - data['time'] > data['expiration']:
+                return None
+            user = Users.query.get(data['id'])
+            return user
+        except Exception:
+            return None
+
+
 
 
 class Posts(db.Model):
