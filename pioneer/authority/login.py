@@ -1,4 +1,4 @@
-from .. import app, db
+from .. import app, db, auth
 from ..models import Users
 from flask import request, jsonify
 import time
