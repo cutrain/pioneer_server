@@ -1,6 +1,6 @@
 from . import app, db
 import time
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired, BadSignature
 
 class Users(db.Model):
     __tablename__ = 'Users'
@@ -25,19 +25,18 @@ class Users(db.Model):
         return s.dumps(token)
 
     @staticmethod
-    def verify(token):
+    def verify_token(token):
+        s = Serializer(app.config['SECRET_KEY'])
         try:
-            s = Serializer(app.config['SECRET_KEY'])
             data = s.loads(token)
-            now_t = time.time()
-            if now_t - data['time'] > data['expiration']:
-                return None
-            user = Users.query.get(data['id'])
-            return user
-        except Exception:
+        except SignatureExpired:
             return None
-
-
+        except BadSignature:
+            return None
+        user = Users.query.get(data['id'])
+        if not user or user.token != token:
+            return None
+        return user
 
 
 class Posts(db.Model):
