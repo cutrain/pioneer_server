@@ -2,6 +2,19 @@ from . import app, db
 import time
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired, BadSignature
 
+Likes = db.Table(
+    'Likes',
+    db.Column('userId', db.Integer, db.ForeignKey('Users.userId'), primary_key=True),
+    db.Column('replyId', db.Integer, db.ForeignKey('Replies.replyId'), primary_key=True),
+)
+
+
+Favorates = db.Table(
+    'Favorates',
+    db.Column('userId', db.Integer, db.ForeignKey('Users.userId'), primary_key=True),
+    db.Column('PostId', db.Integer, db.ForeignKey('Posts.postId'), primary_key=True),
+)
+
 class Users(db.Model):
     __tablename__ = 'Users'
     userId = db.Column(db.Integer, primary_key=True)
@@ -46,6 +59,11 @@ class Posts(db.Model):
     postTime = db.Column(db.DateTime, nullable=False)
     forumName = db.Column(db.String(50), nullable=False)
     userId = db.Column(db.Integer, db.ForeignKey('Users.userId'))
+    favorates = db.relationship('favorates',
+                                secondary=Favorates,
+                                backref=db.backref('favorates', lazy='dynamic'),
+                                lazy='dynamic',
+                               )
 
     def __repr__(self):
         return '<Posts %r>' % self.postTitle
@@ -60,21 +78,14 @@ class Replies(db.Model):
     floor = db.Column(db.Integer, nullable=False, unique=True)
     postId = db.Column(db.Integer, db.ForeignKey('Posts.postId'), nullable=False)
     userId = db.Column(db.Integer, db.ForeignKey('Users.userId'), nullable=False)
+    likes = db.relationship('Likes',
+                            secondary=Likes,
+                            backref=db.backref('likes', lazy='dynamic'),
+                            lazy='dynamic',
+                           )
+
 
     def __repr__(self):
         return '<Replies %r>' % self.content
 
-
-Likes = db.Table(
-    'Likes',
-    db.Column('userId', db.Integer, db.ForeignKey('Users.userId'), primary_key=True),
-    db.Column('replyId', db.Integer, db.ForeignKey('Replies.replyId'), primary_key=True),
-)
-
-
-Favorates = db.Table(
-    'Favorates',
-    db.Column('userId', db.Integer, db.ForeignKey('Users.userId'), primary_key=True),
-    db.Column('PostId', db.Integer, db.ForeignKey('Posts.postId'), primary_key=True),
-)
 
