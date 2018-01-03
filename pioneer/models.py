@@ -77,4 +77,3 @@ Favorates = db.Table(
     db.Column('userId', db.Integer, db.ForeignKey('Users.userId'), primary_key=True),
     db.Column('PostId', db.Integer, db.ForeignKey('Posts.postId'), primary_key=True),
 )
-
