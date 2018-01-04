@@ -1,7 +1,6 @@
 from .. import app, db, auth
 from ..models import Users, Posts, Replies, Likes, Favorates
 from flask import request, jsonify, g
-from flask.ext.login import current_user
 from datetime import datetime
 import json
 
