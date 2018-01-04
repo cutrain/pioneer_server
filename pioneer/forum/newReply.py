@@ -9,7 +9,7 @@ from datetime import datetime
 @auth.login_required
 def newReply():
     try:
-        data = json.loads(request.get_data())
+        data = json.loads(request.get_data().decode('utf-8'))
         content = data['content']
         postId = data['postId']
         replyToId = data['replyTo']

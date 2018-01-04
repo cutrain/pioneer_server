@@ -12,7 +12,7 @@ def newPost():
     # print (g.user)
     # print (g.user.username)
     try:
-        data = json.loads(request.get_data())
+        data = json.loads(request.get_data().decode('utf-8'))
         title = data['title']
         content = data['content']
         forumname = data['forumName']

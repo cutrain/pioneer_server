@@ -8,7 +8,7 @@ import json
 @auth.login_required
 def addToFavorite():
     try:
-        data = json.loads(request.get_data())
+        data = json.loads(request.get_data().decode('utf-8'))
         postId = data['postId']
         userId = g.user.userId
         favorite = Favorates(postId=postId, userId=userId)
