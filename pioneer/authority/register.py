@@ -6,8 +6,8 @@ import json
 @app.route('/user/register', methods=['POST'])
 def register():
     # TODO: register
-    data = json.loads(request.get_data().decode('utf-8'))
     try:
+        data = json.loads(request.get_data().decode('utf-8'))
         username = data['username']
         password = data['password']
         mail = data['mail']

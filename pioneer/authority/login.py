@@ -25,7 +25,7 @@ def login():
                 'token':user.token
             })
         else:
-            inform = 'password error'
+            inform = 'user not exists or password error'
     except KeyError:
         inform = 'username or password is not specified'
     return jsonify({
