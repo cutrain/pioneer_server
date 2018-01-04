@@ -10,7 +10,7 @@ def login():
     # TODO: login & modify database
     inform = ''
     try:
-        data = json.loads(request.get_data())
+        data = json.loads(request.get_data().decode('utf-8'))
         username = data['username']
         password = data['password']
         user = Users.query.filter_by(username=username).first()

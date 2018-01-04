@@ -59,7 +59,7 @@ class Posts(db.Model):
     postTime = db.Column(db.DateTime, nullable=False)
     forumName = db.Column(db.String(50), nullable=False)
     userId = db.Column(db.Integer, db.ForeignKey('Users.userId'))
-    favorates = db.relationship('favorates',
+    favorates = db.relationship('Users',
                                 secondary=Favorates,
                                 backref=db.backref('favorates', lazy='dynamic'),
                                 lazy='dynamic',
@@ -78,7 +78,7 @@ class Replies(db.Model):
     floor = db.Column(db.Integer, nullable=False, unique=True)
     postId = db.Column(db.Integer, db.ForeignKey('Posts.postId'), nullable=False)
     userId = db.Column(db.Integer, db.ForeignKey('Users.userId'), nullable=False)
-    likes = db.relationship('Likes',
+    likes = db.relationship('Users',
                             secondary=Likes,
                             backref=db.backref('likes', lazy='dynamic'),
                             lazy='dynamic',
