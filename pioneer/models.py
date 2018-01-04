@@ -89,3 +89,15 @@ class Replies(db.Model):
         return '<Replies %r>' % self.content
 
 
+Likes = db.Table(
+    'Likes',
+    db.Column('userId', db.Integer, db.ForeignKey('Users.userId'), primary_key=True),
+    db.Column('replyId', db.Integer, db.ForeignKey('Replies.replyId'), primary_key=True),
+)
+
+
+Favorates = db.Table(
+    'Favorates',
+    db.Column('userId', db.Integer, db.ForeignKey('Users.userId'), primary_key=True),
+    db.Column('PostId', db.Integer, db.ForeignKey('Posts.postId'), primary_key=True),
+)
