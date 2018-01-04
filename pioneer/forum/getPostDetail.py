@@ -14,7 +14,7 @@ def getPostDetail():
         return jsonify({
             'stateCode': 200,
             'title' : post.postTitle,
-            'content' : '',
+            'content' : replies[0].content,
             'replies' : [getReplyInfo(reply) for reply in replies]
         }) 
     except KeyError:
@@ -28,5 +28,5 @@ def getReplyInfo(reply):
     info['floor'] = reply.floor
     info['user'] = Users.query.filter_by(userId=reply.userId).one().username
     info['content'] = reply.content
-    info['likes'] = ''
+    info['likes'] = 0
     return info
