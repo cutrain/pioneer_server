@@ -15,7 +15,7 @@ def getPostDetail():
             'stateCode': 200,
             'title' : post.postTitle,
             'content' : replies[0].content,
-            'replies' : [getReplyInfo(reply) for reply in replies]
+            'replies' : [getReplyInfo(reply) for reply in replies][1:] # replies[0] is the post content.
         }) 
     except KeyError:
         pass
