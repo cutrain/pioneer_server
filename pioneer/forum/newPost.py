@@ -31,10 +31,10 @@ def newPost():
         db.session.add(reply)
         db.session.commit()
         return jsonify({
-            'state': 200
+            'stateCode': 200
         })
     except KeyError:
         pass
     return jsonify({
-        'state': 404
+        'stateCode': 404
     })
