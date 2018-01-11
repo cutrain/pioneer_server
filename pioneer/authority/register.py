@@ -3,11 +3,11 @@ from flask import request, abort, jsonify
 from ..models import Users
 import json
 
-@app.route('/register', methods=['POST'])
+@app.route('/user/register', methods=['POST'])
 def register():
     # TODO: register
-    data = json.loads(request.get_data())
     try:
+        data = json.loads(request.get_data().decode('utf-8'))
         username = data['username']
         password = data['password']
         mail = data['mail']

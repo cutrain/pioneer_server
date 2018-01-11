@@ -8,8 +8,8 @@ from .models import Users
 from flask import g
 
 
-@auth.verify_password
-def verify_password(token, null):
+@auth.verify_token
+def verify_token(token):
     user = Users.verify_token(token)
     if not user:
         return False

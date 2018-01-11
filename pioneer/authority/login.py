@@ -5,12 +5,12 @@ import time
 import json
 
 
-@app.route('/login', methods=['POST'])
+@app.route('/user/login', methods=['POST'])
 def login():
     # TODO: login & modify database
     inform = ''
     try:
-        data = json.loads(request.get_data())
+        data = json.loads(request.get_data().decode('utf-8'))
         username = data['username']
         password = data['password']
         user = Users.query.filter_by(username=username).first()
@@ -25,7 +25,7 @@ def login():
                 'token':user.token
             })
         else:
-            inform = 'password error'
+            inform = 'user not exists or password error'
     except KeyError:
         inform = 'username or password is not specified'
     return jsonify({
